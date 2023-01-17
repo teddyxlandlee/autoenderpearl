@@ -1,0 +1,16 @@
+{
+  "type": "autoenderpearl:fake_craft_bench",
+  "ingredients": [
+    {
+      "item": "blaze_rod"
+    },
+    {
+      "item": "ender_pearl",
+      "count": 2
+    }
+  ],
+  "result": {
+    "item": "ender_eye",
+    "count": 2
+  }
+}

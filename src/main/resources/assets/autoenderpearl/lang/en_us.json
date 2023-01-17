@@ -1,0 +1,4 @@
+{
+  "error.autoenderpearl.reload": "Failed to reload: %s",
+  "error.autoenderpearl.no_ingredient": "You don't have enough ingredient!"
+}

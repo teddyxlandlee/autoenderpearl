@@ -1,0 +1,4 @@
+{
+  "error.autoenderpearl.reload": "无法重载配置: %s",
+  "error.autoenderpearl.no_ingredient": "缺少原料，无法合成"
+}

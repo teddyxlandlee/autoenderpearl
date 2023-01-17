@@ -1,0 +1,30 @@
+{
+  "schemaVersion": 1,
+  "id": "autoenderpearl",
+  "version": "${version}",
+  "name": "Auto Ender Pearl",
+  "description": "A client mod to crack server advancements, whether hidden or not",
+
+  "environment": "client",
+  "authors": [
+    "Pigeonia Featurehouse",
+    "teddyxlandlee"
+  ],
+  "license": "GPL-2.0-only",
+  "mixins": [
+    "autoenderpearl.mixins.json"
+  ],
+  "depends": {
+    "fabricloader": ">=0.14.10",
+    "minecraft": "1.19.x",
+    "fabric-api": "*"
+  },
+  "entrypoints": {
+    "main": [
+      "org.featurehouse.mcmod.autoenderpearl.AutoEnderPearlMain"
+    ],
+    "client": [
+      "org.featurehouse.mcmod.autoenderpearl.AutoEnderPearlMain::clientInit"
+    ]
+  }
+}
