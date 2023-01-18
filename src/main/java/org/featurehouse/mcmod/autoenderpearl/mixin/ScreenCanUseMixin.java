@@ -4,6 +4,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.screen.ScreenHandler;
+import net.minecraft.server.network.ServerPlayerEntity;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.injection.At;
@@ -27,7 +28,10 @@ abstract class ScreenCanUseMixin {
     private boolean editTick(ScreenHandler instance, PlayerEntity playerEntity) {
         return instance == this.playerScreenHandler();
     }
+}
 
+@Mixin(ServerPlayerEntity.class)
+abstract class ServerScreenCanUseMixin {
     @Inject(method = "openHandledScreen", at = @At("HEAD"), cancellable = true)
     private void refuseOpenHandledScreen(NamedScreenHandlerFactory factory, CallbackInfoReturnable<OptionalInt> cir) {
         cir.setReturnValue(OptionalInt.empty());

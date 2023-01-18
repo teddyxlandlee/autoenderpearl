@@ -38,7 +38,7 @@ public record FakeCraftBenchRecipe(Identifier id, List<ItemStack> input, ItemSta
 
         for (ItemStack input0 : input) {
             final int count = input0.getCount();
-            final int remove = Inventories.remove(inventory, predicate(input0), count, false);
+            final int remove = Inventories.remove(copy, predicate(input0), count, false);
             if (remove < count) return false;
         }
         return true;

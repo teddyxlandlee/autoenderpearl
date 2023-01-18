@@ -67,13 +67,6 @@ jar {
 	}
 }
 
-// These things are to be used to inject ciphers
-tasks.register('postInjectJar') {
-
-}
-
-tasks.register('postInjectSourcesJar')
-
 // configure the maven publication
 publishing {
 	publications {
