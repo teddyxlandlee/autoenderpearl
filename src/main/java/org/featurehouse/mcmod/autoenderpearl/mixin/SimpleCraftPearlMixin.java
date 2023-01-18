@@ -3,7 +3,6 @@ package org.featurehouse.mcmod.autoenderpearl.mixin;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.screen.NamedScreenHandlerFactory;
 import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
@@ -17,7 +16,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(CraftingTableBlock.class)
-public class SimpleCraftPearlMixin {
+abstract class SimpleCraftPearlMixin {
     @Inject(
             method = "onUse",
             at = @At("RETURN")

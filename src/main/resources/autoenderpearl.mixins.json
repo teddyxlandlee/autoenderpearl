@@ -9,6 +9,7 @@
   "client": [
   ],
   "mixins": [
+    "ClearGreenBookMixin",
     "Disable2x2CraftMixin",
     "ScreenCanUseMixin",
     "SimpleCraftPearlMixin"

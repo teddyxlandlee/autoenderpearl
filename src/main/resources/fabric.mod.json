@@ -24,7 +24,6 @@
       "org.featurehouse.mcmod.autoenderpearl.AutoEnderPearlMain"
     ],
     "client": [
-      "org.featurehouse.mcmod.autoenderpearl.AutoEnderPearlMain::clientInit"
     ]
   }
 }
