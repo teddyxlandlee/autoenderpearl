@@ -3,9 +3,9 @@
   "id": "autoenderpearl",
   "version": "${version}",
   "name": "Auto Ender Pearl",
-  "description": "A client mod to crack server advancements, whether hidden or not",
+  "description": "Disables all in-game GUI (except inventory), while crafting ender pearl via clicking crafting table is enabled.",
 
-  "environment": "client",
+  "environment": "*",
   "authors": [
     "Pigeonia Featurehouse",
     "teddyxlandlee"
