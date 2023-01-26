@@ -3,7 +3,7 @@ package org.featurehouse.mcmod.autoenderpearl.mixin;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.CraftingTableBlock;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.hit.BlockHitResult;
@@ -22,8 +22,8 @@ abstract class SimpleCraftPearlMixin {
             at = @At("RETURN")
     )
     private void postUse(BlockState state, World world, BlockPos pos, PlayerEntity player, Hand hand, BlockHitResult hit, CallbackInfoReturnable<ActionResult> cir) {
-        FakeCraftingBench bench = new FakeCraftingBench(world.getRecipeManager(), player.getInventory());
+        FakeCraftingBench bench = new FakeCraftingBench(world.getRecipeManager(), player.inventory);
         if (!bench.craft())
-            player.sendMessage(Text.translatable("error.autoenderpearl.no_ingredient"), true);
+            player.sendMessage(new TranslatableText("error.autoenderpearl.no_ingredient"), true);
     }
 }

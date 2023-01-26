@@ -6,7 +6,6 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.mojang.brigadier.StringReader;
 import com.mojang.brigadier.exceptions.CommandSyntaxException;
-import com.mojang.logging.LogUtils;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.Inventories;
 import net.minecraft.inventory.SimpleInventory;
@@ -22,13 +21,24 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.JsonHelper;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
-import org.slf4j.Logger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Predicate;
 
-public record FakeCraftBenchRecipe(Identifier id, List<ItemStack> input, ItemStack output) implements Recipe<PlayerInventory> {
-    private static final Logger LOGGER = LogUtils.getLogger();
+public final class FakeCraftBenchRecipe implements Recipe<PlayerInventory> {
+    private static final Logger LOGGER = LogManager.getLogger();
+    private final Identifier id;
+    private final List<ItemStack> input;
+    private final ItemStack output;
+
+    public FakeCraftBenchRecipe(Identifier id, List<ItemStack> input, ItemStack output) {
+        this.id = id;
+        this.input = input;
+        this.output = output;
+    }
 
     @Override
     public boolean matches(PlayerInventory inventory, World world) {
@@ -48,8 +58,8 @@ public record FakeCraftBenchRecipe(Identifier id, List<ItemStack> input, ItemSta
         return itemStack -> {
             if (!ItemStack.areItemsEqual(itemStack, input) || itemStack.getCount() < input.getCount())
                 return false;
-            if (input.hasNbt()) {
-                NbtPredicate nbtPredicate = new NbtPredicate(input.getNbt());
+            if (input.hasTag()) {
+                NbtPredicate nbtPredicate = new NbtPredicate(input.getTag());
                 return nbtPredicate.test(itemStack);
             }
             return true;
@@ -101,6 +111,42 @@ public record FakeCraftBenchRecipe(Identifier id, List<ItemStack> input, ItemSta
         return AutoEnderPearlMain.RECIPE_TYPE;
     }
 
+    public Identifier id() {
+        return id;
+    }
+
+    public List<ItemStack> input() {
+        return input;
+    }
+
+    public ItemStack output() {
+        return output;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) return true;
+        if (obj == null || obj.getClass() != this.getClass()) return false;
+        FakeCraftBenchRecipe that = (FakeCraftBenchRecipe) obj;
+        return Objects.equals(this.id, that.id) &&
+                Objects.equals(this.input, that.input) &&
+                Objects.equals(this.output, that.output);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, input, output);
+    }
+
+    @Override
+    public String toString() {
+        return "FakeCraftBenchRecipe[" +
+                "id=" + id + ", " +
+                "input=" + input + ", " +
+                "output=" + output + ']';
+    }
+
+
     public static final class Serializer implements RecipeSerializer<FakeCraftBenchRecipe> {
 
         @Override
@@ -108,8 +154,8 @@ public record FakeCraftBenchRecipe(Identifier id, List<ItemStack> input, ItemSta
             final JsonArray ingredients = JsonHelper.getArray(json, "ingredients");
             List<ItemStack> list = Lists.newArrayList();
             for (JsonElement e : ingredients) {
-                var o = JsonHelper.asObject(e, "ingredient");
-                var itemStack = readItemStack(id, o);
+                JsonObject o = JsonHelper.asObject(e, "ingredient");
+                ItemStack itemStack = readItemStack(id, o);
                 list.add(itemStack);
             }
             ItemStack output = readItemStack(id, JsonHelper.getObject(json, "result"));
@@ -123,7 +169,7 @@ public record FakeCraftBenchRecipe(Identifier id, List<ItemStack> input, ItemSta
             final ItemStack itemStack = new ItemStack(item, count);
             if (nbt != null) {
                 try {
-                    itemStack.setNbt(new StringNbtReader(new StringReader(nbt)).parseCompound());
+                    itemStack.setTag(new StringNbtReader(new StringReader(nbt)).parseCompound());
                 } catch (CommandSyntaxException ex) {
                     LOGGER.error("An error occurred while parsing recipe {}", id, ex);
                 }
