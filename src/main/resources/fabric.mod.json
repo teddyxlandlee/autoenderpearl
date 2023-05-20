@@ -1,8 +1,8 @@
 {
   "schemaVersion": 1,
-  "id": "autoenderpearl",
+  "id": "bangui",
   "version": "${version}",
-  "name": "Auto Ender Pearl",
+  "name": "Ban GUI",
   "description": "Disables all in-game GUI (except inventory), while crafting ender pearl via clicking crafting table is enabled.",
 
   "environment": "*",
@@ -25,5 +25,8 @@
     ],
     "client": [
     ]
-  }
+  },
+  "provides": [
+    "autoenderpearl"
+  ]
 }
